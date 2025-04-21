@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Potential Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 3rem 0;
+        }
+
+        .prediction-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .prediction-card h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            color: var(--secondary);
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .info-card h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .info-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item h3 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--dark);
+            color: white;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Solar Energy Potential Analyzer</h1>
+            <p>Discover the solar energy potential at any location worldwide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="prediction-card">
+                <h2>Solar Potential Calculator</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number" id="latitude" name="latitude" step="0.000001" min="-90" max="90" placeholder="Between -90 and 90" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number" id="longitude" name="longitude" step="0.000001" min="-180" max="180" placeholder="Between -180 and 180" required>
+                    </div>
+                    <button type="submit">Calculate Solar Potential</button>
+                </form>
+
+                {% if prediction %}
+                <div class="result">
+                    <p>Predicted Annual Solar Energy:</p>
+                    <div class="result-value">{{ prediction }} kWh/m²/day</div>
+                    <p>Direct Normal Irradiance (DNI)</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="info-card">
+                <h2>About Solar Energy</h2>
+
+                <div class="info-item">
+                    <h3>What is DNI?</h3>
+                    <p>Direct Normal Irradiance (DNI) measures how much solar energy is received per unit area at a given location. It's the most important metric for concentrated solar power systems.</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Solar Energy Benefits</h3>
+                    <ul style="padding-left: 20px; margin-top: 0.5rem;">
+                        <li>Renewable and sustainable energy source</li>
+                        <li>Reduces electricity bills</li>
+                        <li>Low maintenance costs</li>
+                        <li>Environmentally friendly</li>
+                    </ul>
+                </div>
+
+                <div class="info-item">
+                    <h3>Ideal Solar Conditions</h3>
+                    <p>Areas with DNI values above 5 kWh/m²/day are considered excellent for solar energy production. Values between 4-5 kWh/m²/day are good, while below 3 kWh/m²/day may require alternative solutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Solar Energy Potential Analyzer | Using Machine Learning for Accurate Predictions</p>
+        </div>
+    </footer>
+</body>
+</html>
